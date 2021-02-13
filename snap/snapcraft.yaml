@@ -1,0 +1,29 @@
+name: hub-adapter-node
+base: core20
+version: '0.1'
+summary: Adapter in NODE
+description: |
+  Adapter in NODE
+
+grade: stable
+confinement: strict
+
+apps:
+  hub-adapter-node:
+    command: bin/hub-adapter
+
+parts:
+  adapter:
+    plugin: npm
+    source: .
+    npm-node-version: 14.15.5
+    override-build: |
+      snapcraftctl build
+      npm config set unsafe-perm true
+
+plugs:
+  sockdir:
+    interface: content
+    content: sockdir
+    target: $SNAP_COMMON
+    default-provider: thinghub:sockdir
